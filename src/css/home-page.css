@@ -16,3 +16,7 @@
     height: 200px;
     background-color: #007bff;
 }
+
+.loader {
+    margin: 0 auto;
+}

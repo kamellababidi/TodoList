@@ -4,7 +4,7 @@ import NavBar from '../../components/NavBar'
 import CustomModal from '../../components/CustomModal'
 import Task from '../../components/Task'
 import { FaPlus } from "react-icons/fa";
-const basUrl = 'http://localhost:8081/api/task'
+const basUrl = 'http://localhost:8081/api/task/'
 
 class HomePage extends Component {
 
@@ -65,6 +65,32 @@ class HomePage extends Component {
     })
   }
 
+  editTask(title, description) {
+    this.handleShowModal()
+  }
+
+  deleteTask(id) {
+    this.setState({
+      loader: true
+    })
+    fetch(basUrl + id, {
+    method: 'delete',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    })
+    .then(res => {
+      console.log(res, id)
+      if(res.status == 201){
+        this.fetchTasks()
+      } else {
+        alert("something went wrong")
+        this.setState({loader: false})
+      }
+  })
+}
+
   render() {
     return (
       <div className='home-page-container'>
@@ -76,8 +102,8 @@ class HomePage extends Component {
         </div>
         {
           this.state.loader ?
-          <div>
-            loading
+          <div className='loader-container'>
+            <img className='loader' src={require('../../public/loader.gif')}/>
           </div>
           :
           <div className='tasks-container'>
@@ -85,16 +111,13 @@ class HomePage extends Component {
               {
                 this.state.tasks.map((task) => {
                   return(
-                    <Col lg={3}><Task task={task} bg={'primary'}/></Col>
+                    <Col lg={3}><Task task={task} bg={'primary'} deleteTask={this.deleteTask.bind(this)} editTask={this.editTask.bind(this)}/></Col>
                   )
                 })
               }
             </Row>
         </div>
         }
-        
-        {/* <div className='footer-container'>
-        </div> */}
         <CustomModal showModal={this.state.showModal} handleCloseModal={this.handleCloseModal.bind(this)} createTask={this.createTask.bind(this)}/>
       </div>
     )
