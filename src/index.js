@@ -11,6 +11,7 @@ import reset from './constants/css/reset';
 // import css files
 import './css/styles.css'
 import './css/home-page.css'
+import './css/task.css'
 ////////////////////////////////
 
 const GlobalStyle = createGlobalStyle`${reset}`;

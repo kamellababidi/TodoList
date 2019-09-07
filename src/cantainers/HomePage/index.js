@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Row, Col, Button } from 'react-bootstrap';
 import NavBar from '../../components/NavBar'
 import CustomModal from '../../components/CustomModal'
+import Task from '../../components/Task'
 import { FaPlus } from "react-icons/fa";
 
 class HomePage extends Component {
@@ -34,6 +35,14 @@ class HomePage extends Component {
             <FaPlus className='center'/>
           </Button>
         </div>
+        <div className='tasks-container'>
+          <Row>
+            <Col lg={3}><Task bg={'primary'}/></Col>
+            <Col lg={3}><Task bg={'primary'}/></Col>
+          </Row>
+        </div>
+        {/* <div className='footer-container'>
+        </div> */}
         <CustomModal showModal={this.state.showModal} handleCloseModal={this.handleCloseModal.bind(this)}/>
       </div>
     )

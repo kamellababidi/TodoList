@@ -2,3 +2,17 @@
     width: 40%;
     margin: 40px auto;
 }
+
+.tasks-container {
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.footer-container {
+    position: absolute;
+    left:0;
+    bottom:0;
+    right:0;
+    height: 200px;
+    background-color: #007bff;
+}
