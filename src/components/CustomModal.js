@@ -6,8 +6,8 @@ class CustomModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: '',
-            description: ''
+            title: null,
+            description: null
         }
     }
     render() {
@@ -22,22 +22,34 @@ class CustomModal extends Component {
                         <InputGroup.Prepend>
                             <InputGroup.Text id="inputGroup-sizing-sm">Title</InputGroup.Text>
                         </InputGroup.Prepend>
-                        <FormControl onChange={(event) => this.setState({title: event.target.value})} aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+                        <FormControl defaultValue={this.props.edit ? this.props.title : ''} onChange={(event) => this.setState({title: event.target.value})} aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
                     </InputGroup>
                     <InputGroup  size="sm" className="mb-3">
                         <InputGroup.Prepend>
                         <InputGroup.Text>Describtion</InputGroup.Text>
                         </InputGroup.Prepend>
-                        <FormControl onChange={(event) => this.setState({description: event.target.value})} as="textarea" aria-label="With textarea" />
+                        <FormControl defaultValue={this.props.edit ? this.props.description : ''} onChange={(event) => this.setState({description: event.target.value})} as="textarea" aria-label="With textarea" />
                     </InputGroup>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.handleCloseModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={() => this.props.createTask(this.state.title, this.state.description)}>
-                            Save
-                        </Button>
+                            <Button variant="secondary" onClick={this.props.handleCloseModal}>
+                                Close
+                            </Button>
+                        {
+                            this.props.edit ?
+
+                            <Button variant="primary" onClick={() => {
+                                let title = this.state.title ? this.state.title: this.props.title
+                                let description = this.state.description ? this.state.description: this.props.description
+                                this.props.updateTask(title, description)
+                            }}>
+                                Update
+                            </Button>
+                            :
+                            <Button variant="primary" onClick={() => this.props.createTask(this.state.title, this.state.description)}>
+                                Save
+                            </Button>
+                        }
                     </Modal.Footer>
                 </Modal>
             </div>

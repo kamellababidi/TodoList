@@ -13,7 +13,10 @@ class HomePage extends Component {
     this.state = {
       showModal: false,
       tasks: [],
-      loader: true
+      loader: true,
+      title: null,
+      description: null,
+      edit: false,
     }
   }
 
@@ -41,7 +44,7 @@ class HomePage extends Component {
 
   createTask(title, description) {
     this.setState({
-      loader: true
+      loader: true,
     })
     fetch(basUrl, {
     method: 'post',
@@ -65,8 +68,41 @@ class HomePage extends Component {
     })
   }
 
-  editTask(title, description) {
-    this.handleShowModal()
+  editTask(title, description, id) {
+    this.setState({
+      edit: true,
+      title: title,
+      description: description,
+      id: id
+    }, () => {
+      this.handleShowModal()
+    })
+  }
+
+  updateTask(title, description) {
+    this.setState({
+      loader: true
+    })
+    fetch(basUrl + this.state.id, {
+      method: 'put',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "title": title,
+        "description": description,
+      })
+      })
+      .then(res => {
+        if(res.status == 201){
+          this.fetchTasks()
+          this.handleCloseModal()
+        } else {
+          alert("something went wrong")
+          this.setState({loader: false})
+        }
+      })
   }
 
   deleteTask(id) {
@@ -81,7 +117,6 @@ class HomePage extends Component {
     },
     })
     .then(res => {
-      console.log(res, id)
       if(res.status == 201){
         this.fetchTasks()
       } else {
@@ -96,7 +131,11 @@ class HomePage extends Component {
       <div className='home-page-container'>
         <NavBar/>
         <div className='add-container'>
-          <Button variant="outline-primary" size="lg" block onClick={() => this.handleShowModal()}>
+          <Button variant="outline-primary" size="lg" block onClick={() => {
+            this.setState({
+              edit: false
+            }, () => this.handleShowModal())
+          }}>
             <FaPlus className='center'/>
           </Button>
         </div>
@@ -118,7 +157,7 @@ class HomePage extends Component {
             </Row>
         </div>
         }
-        <CustomModal showModal={this.state.showModal} handleCloseModal={this.handleCloseModal.bind(this)} createTask={this.createTask.bind(this)}/>
+        <CustomModal title={this.state.title} description={this.state.description} edit={this.state.edit} showModal={this.state.showModal} handleCloseModal={this.handleCloseModal.bind(this)} createTask={this.createTask.bind(this)} updateTask={this.updateTask.bind(this)}/>
       </div>
     )
   }

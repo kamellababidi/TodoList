@@ -12,7 +12,7 @@ const Task = (props) => (
             </Card.Text>
             
             </Card.Body>
-            <Button variant="secondary" onClick={() => props.editTask(props.task.id)}>Edit</Button>
+            <Button variant="secondary" onClick={() => props.editTask(props.task.title, props.task.description, props.task.id)}>Edit</Button>
             <Button variant="danger" onClick={() => props.deleteTask(props.task.id)}>Delete</Button>
         </Card>
     </div>
