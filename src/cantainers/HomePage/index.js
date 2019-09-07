@@ -1,10 +1,16 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-
+import { Row, Col, Button } from 'react-bootstrap';
+import NavBar from '../../components/NavBar'
+import { FaPlus } from "react-icons/fa";
 
 const HomePage = () => (
     <div className='home-page-container'>
-      Todo List
+      <NavBar/>
+      <div className='add-container'>
+        <Button variant="primary" size="lg" block>
+          <FaPlus className='center'/>
+        </Button>
+      </div>
     </div>
 );
 
